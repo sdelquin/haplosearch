@@ -1,0 +1,34 @@
+DEBUG = False
+SECRET_KEY = "xxxxxxxxx"
+ALLOWED_HOSTS = ["haplosearch.com"]
+STATIC_ROOT = "/path/to/your/statics"
+MEDIA_ROOT = "/path/to/your/media"
+TIME_ZONE = "XXX/XXX"
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s \
+%(process)d %(thread)d %(message)s",
+            "datefmt": "%d/%b/%Y %H:%M:%S",
+        },
+    },
+    "handlers": {
+        "logfile": {
+            "level": "ERROR",
+            "formatter": "verbose",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "haplosearch.log",
+            "maxBytes": 1 * 1024 * 1024,
+            "backupCount": 3,
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["logfile"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+    },
+}
