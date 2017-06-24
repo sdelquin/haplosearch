@@ -1,0 +1,13 @@
+[program:haplosearch]
+user = <username>
+environment = HOME="/home/<username>", USER="<username>"
+command = /home/<username>/haplosearch/run.sh
+stderr_logfile = /path/to/log/haplosearch.err.log
+stdout_logfile = /path/to/log/haplosearch.out.log
+autostart = true
+autorestart = false
+stopsignal = INT
+redirect_stderr = true
+startretries = 0
+killasagroup = true
+stopasagroup = true
