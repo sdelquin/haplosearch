@@ -9,6 +9,6 @@ def deploy():
         with cd("~/haplosearch"):
             run("git pull")
             run("pip install -r requirements.txt")
-            # run("bower install")
+            run("bower install")
             run("python manage.py collectstatic --noinput")
             run("supctl restart haplosearch")
