@@ -1,3 +1,5 @@
 Fabric3==1.13.1.post1
 Django==1.11.2
+boto==2.48.0
 Fabric==1.13.2
+django-widget-tweaks==1.4.1
