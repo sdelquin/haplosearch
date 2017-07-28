@@ -10,7 +10,7 @@ from .exceptions import HaploException
 
 
 def index(request):
-    return render(request, "app/index.html")
+    return render(request, "index.html")
 
 
 def start(request):
@@ -40,7 +40,7 @@ def start(request):
         form = HaploSearchForm()
     return render(
         request,
-        "app/start.html",
+        "start.html",
         {
             "form": form,
             "error": error,

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="row">
+        {% include "form.html" %}
+        {% if outputfile_path %}
+            {% include "result.html" %}
+        {% else %}
+            {% include "examples.html" %}
+        {% endif %}
+    </div>
+
+{% endblock %}
