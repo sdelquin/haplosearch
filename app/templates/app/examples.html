@@ -2,21 +2,22 @@
 
 <div class="col-md-offset-1 col-md-5">
     <h4>Examples of input files</h4>
-    <table class="table table-striped">
+    <table class="table table-striped text-center">
         <tr>
             <td></td>
             <td>Population</td>
             <td>Forensic</td>
         </tr>
         <tr>
-            <td>Sequences</td>
-            <td><a href="{% static '/app/files/mtDNA.sequences.population.txt' %}" download="mtDNA.sequences.population.txt"><i class="fa fa-file-o"></i> mtDNA</a></td>
-            <td><a href="{% static '/app/files/mtDNA.sequences.forensic.txt' %}" download="mtDNA.sequences.forensic.txt"><i class="fa fa-file-o"></i> mtDNA</a></td>
-        </tr>
-        <tr>
             <td>Haplotypes</td>
             <td><a href="{% static '/app/files/mtDNA.haplotypes.population.txt' %}" download="mtDNA.haplotypes.population.txt"><i class="fa fa-file-o"></i> mtDNA</a></td>
             <td><a href="{% static '/app/files/mtDNA.haplotypes.forensic.txt' %}" download="mtDNA.haplotypes.forensic.txt"><i class="fa fa-file-o"></i> mtDNA</a></td>
+        </tr>
+        <tr>
+            <td>Sequences</td>
+            <td colspan="2">
+                <a href="{% static '/app/files/mtDNA.sequences.txt' %}" download="mtDNA.sequences.txt"><i class="fa fa-file-o"></i> mtDNA</a>
+            </td>
         </tr>
     </table>
 </div>

@@ -1,8 +1,8 @@
 from django import forms
 
 OPERATION_CHOICES = (
-    ("S2H", "Get haplotype from sequence"),
-    ("H2S", "Get sequence from haplotype"),
+    ("S2H", "Sequences -> Haplotypes"),
+    ("H2S", "Haplotypes -> Sequences"),
 )
 
 NOMENCLATURE_CHOICES = (
