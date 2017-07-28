@@ -1,6 +1,6 @@
 DEBUG = False
 SECRET_KEY = "xxxxxxxxx"
-ALLOWED_HOSTS = ["haplosearch.com"]
+ALLOWED_HOSTS = ["haplosearch.com", "www.haplosearch.com"]
 STATIC_ROOT = "/path/to/your/statics"
 MEDIA_ROOT = "/path/to/your/media"
 TIME_ZONE = "XXX/XXX"
