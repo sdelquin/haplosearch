@@ -1,0 +1,33 @@
+<div class="col-md-offset-1 col-md-5">
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            <i class="fa fa-exclamation-triangle"></i>
+            <b>Uuups!</b> Something went wrong.
+        </div>
+        <div class="well">
+            <i class="fa fa-info-circle"></i>
+            {{ msg }}.
+        </div>
+    {% else %}
+        <div class="alert alert-success" role="alert">
+            <i class="fa fa-check-circle-o"></i>
+            <b>Well done!</b> The file has been successfully transformed.
+            <br>
+            <i class="fa fa-clock-o"></i> Elapsed time in operation: <b>{{ elapsed_time|floatformat:3 }} ms</b>
+        </div>
+        <form action="{% url 'download' %}" method="post" id="download">
+            {% csrf_token %}
+            <input type="hidden" name="filepath" value="{{ outputfile_path }}">
+            <button id="download_submit_btn" type="submit" class="btn btn-labeled btn-success">
+                <span class="btn-label">
+                    <i class="fa fa-download"></i>
+                </span>
+                Download the transformed file!
+            </button>
+            <p>
+                <i class="fa fa-info-circle"></i>
+                <small>Once you download the file, it will be not available again.</small>
+            </p>
+        </form>
+    {% endif %}
+</div>

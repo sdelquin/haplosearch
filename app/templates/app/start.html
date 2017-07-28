@@ -1,58 +1,12 @@
 {% extends "app/base.html" %}
 
-{% load widget_tweaks %}
-
 {% block content %}
 
-    <form action="." method="post">
-        <div class="row">
-            <div class="col-md-6">
-                {% csrf_token %}
-                <label for="inputfile">Input File</label>
-                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                    <div class="form-control" data-trigger="fileinput">
-                        <i class="fa fa-file-o fileinput-exists"></i>
-                        <span class="fileinput-filename"></span>
-                    </div>
-                    <span class="input-group-addon btn btn-default btn-file">
-                        <span class="fileinput-new">Select file</span>
-                        <span class="fileinput-exists">
-                            <i class="fa fa-refresh"></i>
-                            Change
-                        </span>
-                        {{ form.inputfile }}
-                    </span>
-                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">
-                        <i class="fa fa-times"></i>
-                        Remove
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="operation">Operation</label>
-                    {% render_field form.operation class+="form-control" %}
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="nomenclature">Nomenclature</label>
-                    {% render_field form.nomenclature class+="form-control" %}
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <button type="submit" class="btn btn-labeled btn-primary">
-                    <span class="btn-label">
-                        <i class="fa fa-cog"></i>
-                    </span>
-                    Process my file!
-                </button>
-            </div>
-        </div>
-    </form>
+    <div class="row">
+        {% include "app/form.html" %}
+        {% if outputfile_path %}
+            {% include "app/result.html" %}
+        {% endif %}
+    </div>
 
 {% endblock %}

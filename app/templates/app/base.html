@@ -14,7 +14,7 @@
         <div class="container">
             <div class="row header">
                 <div class="col-md-12">
-                    <img src="{% static 'app/img/HaploSearch LOGO.png' %}" alt="HaploSearch">
+                    <a href="/"><img src="{% static 'app/img/HaploSearch LOGO.png' %}" alt="HaploSearch"></a>
                 </div>
             </div>
             {% block content %}
@@ -24,4 +24,5 @@
     <script src="{% static 'app/bower_components/jquery/dist/jquery.min.js' %}"></script>
     <script src="{% static 'app/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'app/bower_components/jasny-bootstrap/dist/js/jasny-bootstrap.min.js' %}"></script>
+    <script src="{% static 'app/js/app.js' %}"></script>
 </html>
