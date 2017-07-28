@@ -140,7 +140,7 @@ class Adn:
     @classmethod
     def from_haplotype_population(cls, id, ref, haplotipo):
         """
-        Constructor alternativo" de la clase.
+        Constructor "alternativo" de la clase.
         Se construye un objeto de ADN a partir del haplotipo sobre una
         referencia y una posición base.
         Se utiliza la nomenclatura de genética de poblaciones.
@@ -196,9 +196,7 @@ class Adn:
                 # si entramos por este último else es que lo que aparece en la
                 # entrada es incorrecto
                 else:
-                    raise HaploException(
-                        "Error de sintaxis en fichero de entrada"
-                    )
+                    raise HaploException("Syntax error on input file")
         # creamos el nuevo objeto
         s = cls(id, "".join(sec))
         # le asociamos las mutaciones
@@ -209,7 +207,7 @@ class Adn:
     @classmethod
     def from_haplotype_forensic(cls, id, ref, haplotipo):
         """
-        Constructor alternativo" de la clase.
+        Constructor "alternativo" de la clase.
         Se construye un objeto de ADN a partir del haplotipo sobre una
         referencia y una posición base.
         Se utiliza la nomenclatura forense.
@@ -252,9 +250,7 @@ class Adn:
                         # si entramos por este último else es que lo que
                         # aparece en la entrada es incorrecto
                         else:
-                            raise HaploException(
-                                "Error de sintaxis en fichero de entrada"
-                            )
+                            raise HaploException("Syntax error on input file")
         # creamos el nuevo objeto
         s = cls(id, "".join(sec))
         # le asociamos las mutaciones
@@ -803,7 +799,7 @@ def hap2sec(nom_fichero_entrada, nom_fichero_salida, nomenclature):
     # cerrar temporalmente el fichero de entrada
     fichero_entrada.close()
     # alinear la secuencia de referencia
-    if (nomenclature == "population"):
+    if (nomenclature == "POP"):
         ref.align_sequence_population(posbase, nom_fichero_entrada)
     else:
         ref.align_sequence_forensic(posbase, nom_fichero_entrada)
