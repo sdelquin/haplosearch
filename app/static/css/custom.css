@@ -5,3 +5,16 @@
 .start_here {
   margin-top: 50px;
 }
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+/* Set the fixed height of the footer here */
+  height: 100px;
+  background-color: #f5f5f5;
+  padding-top: 40px;
+  text-align: center;
+}
+.love {
+  color: #f00;
+}
