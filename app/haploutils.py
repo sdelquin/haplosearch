@@ -196,7 +196,7 @@ class Adn:
                 # si entramos por este último else es que lo que aparece en la
                 # entrada es incorrecto
                 else:
-                    raise HaploException("Syntax error on input file")
+                    raise HaploException(f"Unknown notation: {h}")
         # creamos el nuevo objeto
         s = cls(id, "".join(sec))
         # le asociamos las mutaciones
@@ -250,7 +250,7 @@ class Adn:
                         # si entramos por este último else es que lo que
                         # aparece en la entrada es incorrecto
                         else:
-                            raise HaploException("Syntax error on input file")
+                            raise HaploException(f"Unknown notation: {h}")
         # creamos el nuevo objeto
         s = cls(id, "".join(sec))
         # le asociamos las mutaciones
@@ -731,10 +731,9 @@ def sec2hap(nom_fichero_entrada, nom_fichero_salida, nomenclature):
             else:
                 h = a.haplotype_forensic(ref, haps3digits, deletions_as_d)
             fichero_salida.write(">%s\n%s\n" % (a.id, h))
-        except:
-            raise HaploException(
-                f"Data error on input file [Line: {num_linea}]"
-            )
+        except HaploException as err:
+            msg = f"Data error on input file [Line: {num_linea}]"
+            raise HaploException(msg + "\n" + err.args[0])
         # incrementamos el número de línea
         num_linea = num_linea + 1
     # cerramos los ficheros
@@ -838,10 +837,9 @@ def hap2sec(nom_fichero_entrada, nom_fichero_salida, nomenclature):
                 a = Adn.from_haplotype_population(id, ref, hap)
             else:
                 a = Adn.from_haplotype_forensic(id, ref, hap)
-        except:
-            raise HaploException(
-                f"Data error on input file [Line: {num_linea}]"
-            )
+        except HaploException as err:
+            msg = f"Data error on input file [Line: {num_linea}]"
+            raise HaploException(msg + "\n" + err.args[0])
         # escribimos la secuencia en el fichero de salida
         fichero_salida.write("%s\n" % (a))
         # incrementamos el número de línea
