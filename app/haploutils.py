@@ -70,9 +70,7 @@ def split_mutation_population(mutation):
                     d["position"] = int(m.group(1))
                     d["base"] = m.group(2)
                 else:
-                    d["type"] = ""
-                    d["position"] = ""
-                    d["base"] = ""
+                    raise HaploException(f"Unknown notation: {mutation}")
     # retornamos el diccionario
     return d
 
@@ -101,7 +99,7 @@ def split_mutation_forensic(mutation):
         m = re.compile(r"^(\d+)\.(\d+)([ATGC])$").match(mutation)
         if (m):
             d["type"] = INSERTION
-            d["position"] = int(m.group(1)) + int(m.group(2)) - 1
+            d["position"] = int(m.group(1)) + int(m.group(2))
             d["base"] = m.group(3)
         else:
             # el elemento es una deleción
@@ -112,9 +110,7 @@ def split_mutation_forensic(mutation):
                 # no conocemos la base, así que ponemos missing
                 d["base"] = MISSING
             else:
-                d["type"] = ""
-                d["position"] = ""
-                d["base"] = ""
+                raise HaploException(f"Unknown notation: {mutation}")
     # retornamos el diccionario
     return d
 
@@ -160,8 +156,10 @@ class Adn:
             haplo_lista = haplotipo.split()
             # recorremos los diferentes elementos del haplotipo
             for h in haplo_lista:
-                # separamos la mutación
-                m = split_mutation_population(h)
+                try:
+                    m = split_mutation_population(h)
+                except HaploException as err:
+                    raise err
                 # guardamos la mutación
                 mutations.append(m)
                 # el elemento es una transición
@@ -227,30 +225,13 @@ class Adn:
             haplo_lista = haplotipo.split()
             # recorremos los diferentes elementos del haplotipo
             for h in haplo_lista:
-                # el elemento lo tratamos como transversión
-                m = re.compile(r"^(\d+)([ATGCRYSWKMBDHVN])$").match(h)
-                if (m):
-                    pos = ref.posref.index(int(m.group(1)))
-                    base = m.group(2)
-                    sec[pos] = base
-                else:
-                    # el elemento es una inserción
-                    m = re.compile(r"^(\d+)\.(\d+)([ATGC])$").match(h)
-                    if (m):
-                        base = m.group(3)
-                        pos = ref.posref.index(int(m.group(1))) + \
-                            int(m.group(2))
-                        sec[pos] = base
-                    else:
-                        # el elemento es una deleción
-                        m = re.compile(r"^(\d+)(del|d)$").match(h)
-                        if (m):
-                            pos = ref.posref.index(int(m.group(1)))
-                            sec[pos] = BLANCO
-                        # si entramos por este último else es que lo que
-                        # aparece en la entrada es incorrecto
-                        else:
-                            raise HaploException(f"Unknown notation: {h}")
+                try:
+                    m = split_mutation_forensic(h)
+                except HaploException as err:
+                    raise err
+                mutations.append(m)
+                pos = ref.posref.index(m["position"])
+                sec[pos] = m["base"]
         # creamos el nuevo objeto
         s = cls(id, "".join(sec))
         # le asociamos las mutaciones
