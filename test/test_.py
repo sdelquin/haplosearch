@@ -21,7 +21,7 @@ def test_hapfor_to_seq():
     manage_haplosearch(TESTFILE_HAP_FOR, outputfile_path, "FOR", "H2S")
     cmp = filecmp.cmp(TESTFILE_SEQ, outputfile_path)
     os.remove(outputfile_path)
-    return cmp
+    assert cmp
 
 
 def test_happop_to_seq():
@@ -29,7 +29,7 @@ def test_happop_to_seq():
     manage_haplosearch(TESTFILE_HAP_POP, outputfile_path, "POP", "H2S")
     cmp = filecmp.cmp(TESTFILE_SEQ, outputfile_path)
     os.remove(outputfile_path)
-    return cmp
+    assert cmp
 
 
 def test_seq_to_hapfor():
@@ -37,7 +37,7 @@ def test_seq_to_hapfor():
     manage_haplosearch(TESTFILE_SEQ, outputfile_path, "FOR", "S2H")
     cmp = filecmp.cmp(TESTFILE_HAP_FOR, outputfile_path)
     os.remove(outputfile_path)
-    return cmp
+    assert cmp
 
 
 def test_seq_to_happop():
@@ -45,4 +45,4 @@ def test_seq_to_happop():
     manage_haplosearch(TESTFILE_SEQ, outputfile_path, "POP", "S2H")
     cmp = filecmp.cmp(TESTFILE_HAP_POP, outputfile_path)
     os.remove(outputfile_path)
-    return cmp
+    assert cmp

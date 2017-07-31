@@ -93,13 +93,15 @@ def split_mutation_forensic(mutation):
     if (m):
         d["type"] = TRANSVERSION
         d["position"] = int(m.group(1))
+        d["offset"] = 0
         d["base"] = m.group(2)
     else:
         # el elemento es una inserción
         m = re.compile(r"^(\d+)\.(\d+)([ATGC])$").match(mutation)
         if (m):
             d["type"] = INSERTION
-            d["position"] = int(m.group(1)) + int(m.group(2))
+            d["position"] = int(m.group(1))
+            d["offset"] = int(m.group(2))
             d["base"] = m.group(3)
         else:
             # el elemento es una deleción
@@ -107,8 +109,9 @@ def split_mutation_forensic(mutation):
             if (m):
                 d["type"] = DELETION
                 d["position"] = int(m.group(1))
+                d["offset"] = 0
                 # no conocemos la base, así que ponemos missing
-                d["base"] = MISSING
+                d["base"] = BLANCO
             else:
                 raise HaploException(f"Unknown notation: {mutation}")
     # retornamos el diccionario
@@ -230,7 +233,7 @@ class Adn:
                 except HaploException as err:
                     raise err
                 mutations.append(m)
-                pos = ref.posref.index(m["position"])
+                pos = ref.posref.index(m["position"]) + m["offset"]
                 sec[pos] = m["base"]
         # creamos el nuevo objeto
         s = cls(id, "".join(sec))
@@ -597,6 +600,12 @@ class Adn:
         # cerramos el fichero
         f.close()
 
+    def get_haplotype(self, nomenclature, ref, haps3digits, deletions_as_d):
+        if nomenclature == "POP":
+            return self.haplotype_population(ref, haps3digits)
+        else:
+            return self.haplotype_forensic(ref, haps3digits, deletions_as_d)
+
 
 def sec2hap(nom_fichero_entrada, nom_fichero_salida, nomenclature):
     """
@@ -707,14 +716,11 @@ def sec2hap(nom_fichero_entrada, nom_fichero_salida, nomenclature):
         a = Adn(id, sec)
         # escribimos la secuencia en el fichero de salida
         try:
-            if (nomenclature == "POP"):
-                h = a.haplotype_population(ref, haps3digits)
-            else:
-                h = a.haplotype_forensic(ref, haps3digits, deletions_as_d)
-            fichero_salida.write(">%s\n%s\n" % (a.id, h))
+            h = a.get_haplotype(nomenclature, ref, haps3digits, deletions_as_d)
         except HaploException as err:
             msg = f"Data error on input file [Line: {num_linea}]"
             raise HaploException(msg + "\n" + err.args[0])
+        fichero_salida.write(">%s\n%s\n" % (a.id, h))
         # incrementamos el número de línea
         num_linea = num_linea + 1
     # cerramos los ficheros
@@ -779,12 +785,14 @@ def hap2sec(nom_fichero_entrada, nom_fichero_salida, nomenclature):
     # cerrar temporalmente el fichero de entrada
     fichero_entrada.close()
     # alinear la secuencia de referencia
-    if (nomenclature == "POP"):
+    if nomenclature == "POP":
         ref.align_sequence_population(posbase, nom_fichero_entrada)
+        build_sequence = Adn.from_haplotype_population
     else:
         ref.align_sequence_forensic(posbase, nom_fichero_entrada)
-    # abrimos de nuevo el fichero de entrada e ignoramos las tres primeras
-    # líneas
+        build_sequence = Adn.from_haplotype_forensic
+    # abrimos de nuevo el fichero de entrada e
+    # ignoramos las tres primeras líneas
     fichero_entrada = open(nom_fichero_entrada, "r")
     fichero_entrada.readline()
     fichero_entrada.readline()
@@ -814,10 +822,7 @@ def hap2sec(nom_fichero_entrada, nom_fichero_salida, nomenclature):
         hap = fichero_entrada.readline().strip()
         # construimos una nueva secuencia
         try:
-            if (nomenclature == "POP"):
-                a = Adn.from_haplotype_population(id, ref, hap)
-            else:
-                a = Adn.from_haplotype_forensic(id, ref, hap)
+            a = build_sequence(id, ref, hap)
         except HaploException as err:
             msg = f"Data error on input file [Line: {num_linea}]"
             raise HaploException(msg + "\n" + err.args[0])
