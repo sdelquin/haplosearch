@@ -1,0 +1,588 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row help">
+    <div class="col-md-3">
+        <div class="list-group">
+          <a href="#introduction" class="list-group-item">Introduction</a>
+          <a href="#data-format" class="list-group-item">Data Format</a>
+          <a href="#input-data-files" class="list-group-item">Input Data Files</a>
+          <a href="#output-data-files" class="list-group-item">Output Data Files</a>
+          <a href="#important-info" class="list-group-item">Important Information</a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <a name="introduction"><h2>Introduction</h2></a>
+
+        <p>
+            Human mitochondrial DNA (mtDNA) has several characteristics that makes it an invaluable tool for population genetic studies, as high copy number, small size (≈16,500 bp) and higher mutation rate than nuclear DNA. Furthermore, mtDNA is maternally inherited without recombination, allowing for the reconstruction of the evolutionary history of populations (<mark>Ballard and Whitlock, 2004</mark>).
+        </p>
+        <p>
+            In 1981, the complete sequence of the human mtDNA was published for the first time (<mark>Anderson et al, 1981</mark>). Since that, populations from almost everywhere have been studied from the mtDNA point of view. The comparison of these large sets of mtDNA data have allowed to construct a robust phylogenetic tree (<mark>Torroni et al, 2006; van Oven and Kayser, 2009</mark>) and to estimate the global distribution and origin of each human mtDNA lineage (<mark>Cann et al, 1987; Ingman et al, 2000; Maca-Meyer et al, 2001; Richards et al, 2000</mark>).
+        </p>
+        <p>
+            MtDNA analysis has also become an useful tool in forensic genetics, as its mode of inheritance allows testing for a putative exclusion scenario in human identification. On the other hand, when only very limited or severely degraded DNA is present in a sample, mtDNA constitutes the last chance for successful DNA typing (<mark>Parson and Bandelt, 2007</mark>).
+        </p>
+        <p>
+            However, published data comparison is frequently complicate as mtDNA results could appear in two different formats: <b>haplotype</b> (detected mutations respect to a reference sequence) and <b>nucleotide sequence data</b>. Manual transformation between formats is time-consuming, complex and likely to introduce mistakes. Moreover, some data analyses, like haplogroup classification or matches between populations, require haplotype data. On the contrary, others, such as genetic diversity calculations, are designed for nucleotide sequences. In all cases, although some data analysis software allow you to use both formats, like Arlequin (<mark>Excoffier and Lischer, 2010</mark>), the transformation between them is usually needed as published mtDNA results could alternatively appear in both types.
+        </p>
+        <p>
+            <b>HaploSeach software transforms haplotype and sequence data between them in a quick and easy way, allowing a fast and reliable data comparison</b>. This program admits both partial and complete mtDNA sequences, and recognises substitution mutations (transitions and transversions), heteroplasmies and indels (insertions and deletions).
+        </p>
+        <p>
+            Although HaploSearch was designed to analyse mtDNA sequences, it is suitable for transforming haplotypes and sequences in any kind of DNA sources. The program only requires a reference sequence from which extract the information, as occurs with the revised Cambridge Reference sequence (CRS) for mtDNA (<mark>Andrews et al, 1999</mark>).
+        </p>
+
+        <a name="data-format"><h2>Data Format</h2></a>
+
+        <h3>Sequences</h3>
+
+        <p>
+            Sequences must be introduced into the commonly used <b>FASTA</b> format, following the IUPAC code (<mark>Cornish-Bowden, 1985</mark>). Using this format in HaploSearch allows you to obtain the complete and partial mtDNA data directly from the main databases (as GeneBank, mtDB...). To be correctly analysed, all sequences have to be equal in length, so they have to be previously aligned with the reference sequence, following the required guidelines (<mark>Bandelt and Parson, 2008</mark>). Each sequence must be written continuously, without spaces or new paragraphs. For this reason, after performing the alignment, it is encouraged to review the sequences as some aligning programs create new paragraphs into the sequence. Removing spaces or new paragraphs could be easily performed by using the "Replace" tool, which is available for the majority of text processors.
+        </p>
+
+        <p>
+            As an example:
+
+            <div class="dna">
+                >CRS<br>
+                AAAACCCCCTCCCC-ATGCC<br>
+                >SEC1<br>
+                AAAACCCCCCCCCCCATGCC<br>
+                >SEC2<br>
+                AAACCCCCCTCCCC-ATGCC<br>
+            </div>
+        </p>
+
+        <h3>Haplotypes</h3>
+
+        <p>
+            Mutations of haplotypes must be arranged from smaller to higher position and separated with spaces. If there are sequences that are exactly the same as the CRS reference, their haplotype would be CRS. This designation for non mutated sequences could be changed when other DNA types are studied.
+        </p>
+
+        <p>
+            Using HaploSearch software, mutations could be written using two formats: <b>"Population Genetics Nomenclature"</b> and <b>"Forensic Genetics Nomenclature"</b> (following the DNA Commission of the International Society for Forensic Genetics recommendations as detailed in <mark>Carracedo et al. (2000)</mark>).
+        </p>
+
+        <h4>Point mutations</h4>
+
+        <p>
+            Point mutations are caused when exchanging a single nucleotide for another (<mark>Freese, 1959a</mark>), in respect to the CRS (or other reference sequence). These changes are classified as transitions or transversions (<mark>Freese, 1959b</mark>).
+        </p>
+
+        <h5>Transition</h5>
+
+        <p>
+            Transition is a mutation changing a purine to another purine nucleotide (A↔G) or a pyrimidine to another pyrimidine nucleotide (C↔T). This is the most common mutation and, for the "Population Genetic Nomenclature", it is only designated by the nucleotide position:
+
+            <div class="dna">
+                <table>
+                    <tr>
+                        <td></td>
+                        <td>000000<b>0</b>001<b>1</b>11</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>123456<b>7</b>890<b>1</b>23</td>
+                    </tr>
+                    <tr>
+                        <th>CRS</th>
+                        <td>CGACCC<b>C</b>TGT<b>A</b>TC</td>
+                    </tr>
+                    <tr>
+                        <th>SEC1</th>
+                        <td>
+                            CGACCC<span class="hl">T</span>TGT<span class="hl">G</span>TC
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <p>
+                In this example, haplotype would be <code>SEC1: 7 11</code>, showing that SEC 1 has two transitions, in position 7 and 11, respectively.
+            </p>
+            <p>
+                However, for the "Forensic Genetic Nomenclature", the haplotype should be designated by the nucleotide position and the mutated base. In this case, it would be <code>SEC1: 7T 11G</code>.
+            </p>
+        </p>
+
+        <h5>Transversion</h5>
+
+        <p>
+            Transversion refers to the substitution of a purine for a pyrimidine or vice versa. For both haplotype formats, they are designated by the nucleotide position and the changed base:
+
+            <div class="dna">
+                <table>
+                    <tr>
+                        <td></td>
+                        <td>00<b>0</b>00000<b>0</b>1111</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>12<b>3</b>45678<b>9</b>0123</td>
+                    </tr>
+                    <tr>
+                        <th>CRS</th>
+                        <td>CG<b>A</b>CCCCT<b>G</b>TATC</td>
+                    </tr>
+                    <tr>
+                        <th>SEC1</th>
+                        <td>CG<span class="hl">C</span>CCCCT<span class="hl">T</span>TATC</td>
+                    </tr>
+                </table>
+            </div>
+        </p>
+        <p>
+            Thus, haplotype would be <code>SEC1: 3C 9T</code>, showing that SEC 1 has one transversion to cytosine in position 3 and one transversion to thymine in position 9.
+        </p>
+
+        <h4>Heteroplasmy</h4>
+
+        <p>
+            The presence of more than one mtDNA haplotype in a sample is referred to as heteroplasmy. This phenomenon could be due to differential segregation of pre-existing heteroplasmic variants, to accumulation of new somatic mutations or to a combination of both.
+        </p>
+
+        <p>
+            In this situations, it is necessary the use of a single symbol to designate a variety of possible nucleotides at a single position (Table 1).
+        </p>
+
+        <table class="table-striped">
+            <caption>Table 1 - The IUPAC nucleotide code (Cornish-Bowden, 1985)</caption>
+            <tr>
+                <th>IUPAC nucleotide code</th>
+                <th>Base</th>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>Adenine</td>
+            </tr>
+            <tr>
+                <td>C</td>
+                <td>Cytosine</td>
+            </tr>
+            <tr>
+                <td>G</td>
+                <td>Guanine</td>
+            </tr>
+            <tr>
+                <td>T</td>
+                <td>Thymine</td>
+            </tr>
+            <tr>
+                <td>R</td>
+                <td>A or G</td>
+            </tr>
+            <tr>
+                <td>Y</td>
+                <td>C or T</td>
+            </tr>
+            <tr>
+                <td>S</td>
+                <td>G or C</td>
+            </tr>
+            <tr>
+                <td>W</td>
+                <td>A or T</td>
+            </tr>
+            <tr>
+                <td>K</td>
+                <td>G or T</td>
+            </tr>
+            <tr>
+                <td>M</td>
+                <td>A or C</td>
+            </tr>
+            <tr>
+                <td>B</td>
+                <td>C or G or T</td>
+            </tr>
+            <tr>
+                <td>D</td>
+                <td>A or G or T</td>
+            </tr>
+            <tr>
+                <td>H</td>
+                <td>A or C or T</td>
+            </tr>
+            <tr>
+                <td>V</td>
+                <td>A or C or G</td>
+            </tr>
+            <tr>
+                <td>N</td>
+                <td>any base</td>
+            </tr>
+        </table>
+
+        <p>
+            For both haplotype formats, they are designated by the nucleotide position and the corresponding IUPAC nucleotide code:
+
+            <div class="dna">
+                <table>
+                    <tr>
+                        <td></td>
+                        <td>0000000001<b>1</b>11</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>1234567890<b>1</b>23</td>
+                    </tr>
+                    <tr>
+                        <th>CRS</th>
+                        <td>CGACCCCTGT<b>A</b>TC</td>
+                    </tr>
+                    <tr>
+                        <th>SEC1</th>
+                        <td>CGACCCCTGT<span class="hl">K</span>TC</td>
+                    </tr>
+                </table>
+            </div>
+        </p>
+
+        <p>
+            Thus, haplotype would be <code>SEC1: 11K</code>, showing that SEC1 has heteroplasmy in position 11, where nucleotides G and T are present.
+        </p>
+
+        <h4>Indels</h4>
+
+        <p>
+            The term indel includes <b>insertions</b> and <b>deletions</b>, as these two types of genetic mutation are often considered together because of the inability to distinguish between them when comparing two sequences. This problem does not exist when sequences are compared with a reference: insertions add one or more extra nucleotides into the DNA, in respect to the reference; and deletions remove one or more nucleotides from the DNA compared with the reference sequence. Due to indels, the sequences have to be aligned before using HaploSearch, in order to designate a correct haplotype. To perform the alignment it is recommended to use alignment programs as <a href="http://www.ebi.ac.uk/Tools/clustalw2/index.html">ClustalW</a>.
+        </p>
+
+        <h5>Insertions</h5>
+
+        <p>
+            As insertions add one or more extra nucleotides, it is necessary to introduce gaps into the reference sequence to maintain the alignment.
+
+            <div class="dna">
+                <table>
+                    <tr>
+                        <td></td>
+                        <td>0000000<b>--</b>001<b>-</b>111</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>1234567<b>--</b>890<b>-</b>123</td>
+                    </tr>
+                    <tr>
+                        <th>CRS</th>
+                        <td>CGACCCC<b>--</b>TGT<b>-</b>ATC</td>
+                    </tr>
+                    <tr>
+                        <th>SEC1</th>
+                        <td>CGACCCC<span class="hl">CC</span>TGT<span class="hl">C</span>ATC</td>
+                    </tr>
+                </table>
+            </div>
+        </p>
+
+        <p>
+            To name the insertions in the "Population Genetic Nomenclature", you must indicate the base position in which the insertion has occurred and the bases that are inserted, preceded by letter "i". In the above example, haplotype would be "SEC1: 7iCC 10iC".
+        </p>
+
+        <p>
+            For the "Forensic Genetic Nomenclature", insertions are independently named by first noting the site immediately to the insertion followed by a decimal point and a '1' (for the first insertion), a '2' (if there is a second base inserted), and so on, and then by the nucleotide that is inserted. In the above example, haplotype would be <code>SEC1: 7.1C 7.2C 10.1C</code> (<mark>Carracedo et al, 2000</mark>).
+        </p>
+
+        <h5>Deletions</h5>
+
+        <p>
+            As deletions remove one or more nucleotides from the DNA, it is necessary to introduce gaps into the studied sequence to maintain the alignment.
+
+            <div class="dna">
+                <table>
+                    <tr>
+                        <td></td>
+                        <td>0000000001111</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>1234567890123</td>
+                    </tr>
+                    <tr>
+                        <th>CRS</th>
+                        <td>CGACCCCTGTATC</td>
+                    </tr>
+                    <tr>
+                        <th>SEC1</th>
+                        <td>CGACC<span class="hl">--</span>TGT<span class="hl">-</span>TC</td>
+                    </tr>
+                </table>
+            </div>
+        </p>
+
+        <p>
+            To designate deletions in the "Population Genetic Nomenclature", you have to write the first base position of the gap and the bases that are deleted, preceded by letter "d". In the above example, haplotype would be <code>SEC1: 6dCC 11dA</code>.
+        </p>
+
+        <p>
+            For the "Forensic Genetic Nomenclature", deletions should be recorded by listing the missing sites followed by a 'del'. In the example, it would be <code>SEC1: 6del 7del 11del</code>.
+        </p>
+
+        <a name="input-data-files"><h2>Input Data Files</h2></a>
+
+        <p>
+            Input data files could be written on any text processor, as long as the file is saved as a txt file. However, if a text processor with autocorrection tools (such as Microsoft Word, OpenOffice Writer or Vim) is used, this function has to be disabled in order to avoid modifications that could affect the HaploSearch operation. Indels are prone to be affected by autocorrection tools, as consecutive hyphens are exchanged for only one. This could cause the lost of alignment and, sometimes, the use of characters that are not recognised by HaploSearch. Therefore, it is encouraged to disable the autocorrection tool or to use unformatted text processors.
+        </p>
+
+        <h3>Transforming sequences into haplotypes</h3>
+
+        <p>
+            The input file for transforming sequences into haplotypes has to be a txt file containing the aligned sequences in FASTA format. Moreover, we have to indicate what is the reference sequence and the position number for the first nucleotide in the sequence as follows:
+
+            <ul>
+                <li>
+                    The first line must indicate the nucleotide position for the first base of the reference sequence with the following format: <code>START: ##</code>. This position would be 1 for complete sequences or to begin with the corresponding number for partial sequences.
+                </li>
+                <li>
+                    The second line must contain the reference sequence in fasta format. The reference sequence must be named ">reference_name" and would be the <code>>CRS</code> for mtDNA or any consensus sequence for other DNA types.
+                </li>
+                <li>
+                    In the following lines, the studied sequences have to be introduced in FASTA format.
+                </li>
+            </ul>
+        </p>
+
+        <h4>Example</h4>
+
+        <div class="dna">
+            START: 16180<br>
+            >CRS<br>
+            AAAACCCCCTCCCCATGCC<br>
+            >SEC1<br>
+            AAAACCCCCCCCCCATGCC<br>
+            >SEC2<br>
+            AAACCCCCCTCCCCATGCC<br>
+        </div>
+
+        <p>
+            When sequences include indels, they have to be aligned for a correct HaploSearch analysis:
+
+            <div class="dna">
+                START: 16180<br>
+                >CRS<br>
+                AAAACCCCCTCCCC-ATGCC<br>
+                >SEC1<br>
+                AAAACCCCCCCCC--ATGCC<br>
+                >SEC2<br>
+                AAACCCCCCTCCCCCATGCC<br>
+            </div>
+        </p>
+
+        <h3>Transforming haplotypes into sequences</h3>
+
+        <p>
+            The input file for transforming haplotypes into sequences is similar to the previous file, but using haplotype data, with whatever Population Genetic or Forensic Genetic nomenclature. As in the previous file, it has to be indicated what is the reference sequence and the position number for the first nucleotide in the reference sequence:            
+        </p>
+
+        <ul>
+            <li>
+                The first line must indicate the nucleotide position for the first base of the reference sequence with the following format: <code>START: ##</code>. This position would be 1 for complete sequences or to begin with the corresponding number for partial sequences.
+            </li>
+            <li>
+                The second line must contain the reference sequence in fasta format. The reference sequence must be named ">reference_name" and would be <code>>CRS</code> for mtDNA or any consense sequence for other DNA types.
+            </li>
+            <li>
+                In the following lines, the haplotypes should be written in a similar way to the fasta format. When sequences do not include mutation, their haplotype would be the reference name. For example, when a mtDNA sequence is identical to the CRS, its haplotype would be "CRS".
+            </li>
+        </ul>
+
+        <h4>Example</h4>
+
+        <div class="dna">
+            START: 16180<br>
+            >CRS<br>
+            AAAACCCCCTCCCCATGCC<br>
+            >SEC1<br>
+            16189<br>
+            >SEC2<br>
+            16183C 16189 16193dC<br>
+            >SEC3<br>
+            CRS<br>
+        </div>
+
+        <div class="alert alert-danger" role="alert">
+            <i class="fa fa-exclamation-triangle"></i>
+            IMPORTANT INFORMATION: Reference sequence in haplotype input files would be written without hyphens as HaploSearch automatically adds gaps when indels are present.
+        </div>
+
+        <a name="output-data-files"><h2>Output Data Files</h2></a>
+
+        <p>
+            HaploSearch output data files have the same format as the input data file for the opposite transformation. This feature allows you to obtain the original data from the output file, checking if any mistakes were introduced during data manipulation and/or HaploSearch have worked properly.
+        </p>
+
+        <p>
+            If the input file is as follows:
+
+            <div class="dna">
+                START: 16180<br>
+                >CRS<br>
+                AAAACCCCCTCCCC--ATGCTTACAAGCAAGTACAGCAATCAACCCTCAA<br>
+                >SEC1<br>
+                AAACCCCTCCCCCCCCATGCTTACAAGCAAGTACAGCAATCAACCTTCAA<br>
+                >SEC2<br>
+                AAAACCCCCTCCCC--ATGCTTACAAGCAAGTACAGCAATCAACCCCCAA<br>
+                >SEC3<br>
+                AAAACCCCCCCC----ATGCTTACAAGCAAGTACAGCAATCAACCCTCAA<br>
+            </div>
+        </p>
+
+        <p>
+            The output file for "Population Genetic Nomenclature" will be:
+
+            <div class="dna">
+                START: 16180<br>
+                >CRS<br>
+                AAAACCCCCTCCCCATGCTTACAAGCAAGTACAGCAATCAACCCTCAA<br>
+                >SEC1<br>
+                16183C 16187 16189 16193iCC 16223<br>
+                >SEC2<br>
+                16224<br>
+                >SEC3<br>
+                16189 16192dCC<br>
+            </div>
+        </p>
+
+        <p>
+            Or this one, for "Forensic Genetic Nomenclature":
+
+            <div class="dna">
+                START: 16180<br>
+                >CRS<br>
+                AAAACCCCCTCCCCATGCTTACAAGCAAGTACAGCAATCAACCCTCAA<br>
+                >SEC1<br>
+                16183C 16187T 16189C 16193.1C 16193.2C 16223T<br>
+                >SEC2<br>
+                16224C<br>
+                >SEC3<br>
+                16189C 16192del 16193del<br>
+            </div>
+        </p>
+
+        <p>
+            Now, if these output files are used as input file, we could obtain the original data source.
+        </p>
+
+        <a name="important-info"><h2>Important information about data format</h2></a>
+
+        <h3>Alignment</h3>
+
+        <p>
+            HaploSearch recognises the indels that are determined by the aligned input sequences. When sequences containing indels are aligned by alignment programs, the gaps are not always placed in the same position as in the commonly used nomenclature.
+        </p>
+
+        <p>
+            For instance, SEC1 has four inserted Cs between 301 to 320 mtDNA positions:
+
+            <div class="dna">
+                START:301<br>
+                >rCRS<br>
+                AACCCCCCCTCCCCCGC<br>
+                >SEC1<br>
+                AACCCCCCCCCCTCCCCCCGC<br>
+            </div>
+        </p>
+
+        <p>
+            As there are several Cs in this position, the alignment could be shown in several ways, all of them being corrected. However, every one would originate different haplotypes:
+        </p>
+
+        <p>
+            <table class="alignment">
+                <tr>
+                    <td class="seq">rCRS: AA--CCCCCCCCT-CCCCCGC</td>
+                    <td rowspan="2">302iCC 310iC / 302 .1C 302.2C 310.1C</td>
+                </tr>
+                <tr>
+                    <td>SEC1: AACCCCCCCCCCTCCCCCCGC</td>
+                </tr>
+            </table>
+        </p>
+
+        <p>
+            <table class="alignment">
+                <tr>
+                    <td class="seq">rCRS: AACCCCCCCC--TCCCCC-GC</td>
+                    <td rowspan="2">309iCC 315iC / 309.1C 309.2C 315.1C</td>
+                </tr>
+                <tr>
+                    <td>SEC1: AACCCCCCCCCCTCCCCCCGC</td>
+                </tr>
+            </table>
+        </p>
+
+        <p>
+            <table class="alignment">
+                <tr>
+                    <td class="seq">rCRS: AAC--CCCCCCCTC-CCCCGC</td>
+                    <td rowspan="2">303iCC 311iC / 303.1C 303.2C 311.1C</td>
+                </tr>
+                <tr>
+                    <td>SEC1: AACCCCCCCCCCTCCCCCCGC</td>
+                </tr>
+            </table>
+        </p>
+
+        <p>
+            We do not know what mutational event caused these insertions, so all the different alignments are possible. However, certain indels are commonly named in a determined way. In the above example, the correct nomenclature would be <code>309iCC 315iC</code> or <code>309.1C 309.2C 315.1C</code>. This problem could be overcome by checking the alignment previous to the HaploSearch analysis (for instance, using a sequence editor as <a href="http://www.mbio.ncsu.edu/BioEdit/BioEdit.html">BioEdit</a>) and placing the variable indels in the most used place. A later modification of the output file is also possible. For alignment guidelines see <mark>Bandelt and Parson (2008)</mark>.
+        </p>
+
+        <h3>Partial sequences (Population Genetics nomenclature)</h3>
+
+        <p>
+            Sometimes, in population genetic studies, when only the hipervariable region I (<b>HVRI</b>) is analysed (positions between 16024 - 16365), the <code>16###</code> notation could be omitted for clarity reasons. For example, haplotype <code>SEQ1: 16069 16126</code> would be <code>SEQ1: 069 126</code>.
+        </p>
+
+        <p>
+            If you want to use this notation in HaploSearch, you should tick the corresponding option <code>"I am only analysing HVRI"</code> in the main form.
+        </p>
+
+        <p>
+            If you use the current notation:
+
+            <div class="dna">
+                START: 16090<br>
+                >CRS<br>
+                TATTTCGTACATTACTGCCAGCCACCATGA<br>
+                >SEQ1<br>
+                TATCTCGTACATTACTGCCAGACACCATGA<br>
+            </div>
+        </p>
+
+        <p>
+            The output would be:
+
+            <div class="dna">
+                START: 16090<br>
+                >CRS<br>
+                TATTTCGTACATTACTGCCAGCCACCATGA<br>
+                >SEQ1<br>
+                16093 16111A<br>
+            </div>
+        </p>
+
+        <p>
+            In other hand, if you eliminate the 16### and set the mentioned option, the output would be:
+
+            <div class="dna">
+                START: 90<br>
+                >CRS<br>
+                TATTTCGTACATTACTGCCAGCCACCATGA<br>
+                >SEQ1<br>
+                093 111A<br>
+            </div>
+        </p>
+
+        <p>
+            This kind of notation is only possible for Populations Genetic Nomenclature.
+        </p>
+
+        <h3>Nomenclature of deletions (Forensic Genetics nomenclature)</h3>
+
+        <p>
+            As recommended by the EMPOP database, deletions are named as "del" in HaploSearch (see "Indels" section). However, <mark>Carracedo et al. (2000)</mark> recommends the use of "d" instead of "del". For this reason, <b>we use "d" by default in the output file</b>. Be aware that it is extremely important to use "D" for the heteroplasmy consisting of a mixture of A, G, and T (following IUPAC code) and "d" for deletions.
+        </p>
+    </div>
+</div>
+
+{% endblock %}

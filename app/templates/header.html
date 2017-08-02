@@ -1,7 +1,11 @@
 {% load static %}
 
 <div class="row header">
-    <div class="col-md-12">
+    <div class="col-md-10">
         <a href="/"><img src="{% static 'img/HaploSearch LOGO.png' %}" alt="HaploSearch"></a>
+    </div>
+    <div class="col-md-2 text-right">
+        <i class="fa fa-life-saver"></i>
+        <a href="{% url 'help' %}">I need some help!</a>
     </div>
 </div>

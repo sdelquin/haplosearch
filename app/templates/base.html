@@ -10,17 +10,20 @@
         <link rel="stylesheet" href="{% static 'bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
         <link rel="stylesheet" href="{% static 'bower_components/jasny-bootstrap/dist/css/jasny-bootstrap.min.css' %}">
         <link rel="stylesheet" href="{% static 'bower_components/font-awesome/css/font-awesome.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+        <link rel="stylesheet" href="{% static 'css/app.css' %}">
     </head>
     <body>
-        <div class="container">
-            {% include "header.html" %}
-            {% block content %}
-            {% endblock %}
+        <div class="content">
+            <div class="container">
+                {% include "header.html" %}
+                {% block content %}
+                {% endblock %}
+            </div>
         </div>
         {% include "footer.html" %}
+        {% include "back_to_top.html" %}
     </body>
-    <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
+        <script src="{% static 'bower_components/jquery/dist/jquery.min.js' %}"></script>
     <script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'bower_components/jasny-bootstrap/dist/js/jasny-bootstrap.min.js' %}"></script>
     <script src="{% static 'js/app.js' %}"></script>

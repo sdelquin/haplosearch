@@ -58,3 +58,7 @@ def download(request):
     response = HttpResponse(filecontent, content_type="text/plain")
     response["Content-Disposition"] = "attachment; filename=output.txt"
     return response
+
+
+def help(request):
+    return render(request, "help.html")
