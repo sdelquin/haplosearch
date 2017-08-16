@@ -40,6 +40,22 @@
                 </div>
             </div>
         </div>
+        <div class="row" id="hvri-row">
+            <div class="col-md-6 col-md-offset-6">
+                <div class="form-check">
+                    <label for="hvri" class="form-check-label">
+                        {% render_field form.hvri class+="form-check-input" %}
+                        {{ form.hvri.label }}
+                    </label>
+                    <div>
+                        <small>
+                            <i class="fa fa-info-circle"></i>
+                            {{ form.hvri.help_text }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-12">
                 <button id="process_submit_btn" type="submit" class="btn btn-labeled btn-primary">

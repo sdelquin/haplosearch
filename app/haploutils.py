@@ -294,14 +294,14 @@ class Adn:
         """
         return len(self.sec)
 
-    def haplotype_population(self, ref, haps3digits):
+    def haplotype_population(self, ref, hvri):
         """
         Obtener el haplotipo de la secuencia actual en comparación con una de
         referencia.
         Se utiliza la nomenclatura de genética de poblaciones.
         Parámetros:
             ref: secuencia de referencia.
-            haps3digits: indica si los haplotipos se muestran con 3 dígitos o
+            hvri: indica si los haplotipos se muestran con 3 dígitos o
             normales.
         Retorna:
             Una cadena con la representación del haplotipo.
@@ -324,7 +324,7 @@ class Adn:
                     ((ref[i] == TIMINA) and (self[i] == CITOSINA)) or
                     ((ref[i] == ADENINA) and (self[i] == GUANINA)) or
                     ((ref[i] == GUANINA) and (self[i] == ADENINA))):
-                if (haps3digits):
+                if hvri:
                     h = h + (" %03d" % (pos))
                 else:
                     h = h + (" %d" % (pos))
@@ -338,7 +338,7 @@ class Adn:
                   ((ref[i] == TIMINA) and (self[i] == GUANINA)) or
                   ((ref[i] == GUANINA) and (self[i] == CITOSINA)) or
                   ((ref[i] == CITOSINA) and (self[i] == GUANINA))):
-                if (haps3digits):
+                if hvri:
                     h = h + (" %03d%s" % (pos, self[i]))
                 else:
                     h = h + (" %d%s" % (pos, self[i]))
@@ -356,7 +356,7 @@ class Adn:
                   (self[i] == ADEoCIToTIM) or
                   (self[i] == ADEoCIToGUA) or
                   (self[i] == ANYBASE)):
-                if (haps3digits):
+                if hvri:
                     h = h + (" %03d%s" % (pos, self[i]))
                 else:
                     h = h + (" %d%s" % (pos, self[i]))
@@ -368,7 +368,7 @@ class Adn:
                   ((ref[i] == BLANCO) and (self[i] == CITOSINA))):
                 # si el último cambio no fue una inserción, empezamos una nueva
                 if (ultimo_cambio != INSERTION):
-                    if (haps3digits):
+                    if hvri:
                         h = h + (" %03di%s" % (pos, self[i]))
                     else:
                         h = h + (" %di%s" % (pos, self[i]))
@@ -384,7 +384,7 @@ class Adn:
                   ((ref[i] == CITOSINA) and (self[i] == BLANCO))):
                 # si el último cambio no fue una deleción, empezamos una nueva
                 if (ultimo_cambio != DELETION):
-                    if (haps3digits):
+                    if hvri:
                         h = h + (" %03dd%s" % (pos, ref[i]))
                     else:
                         h = h + (" %dd%s" % (pos, ref[i]))
@@ -414,17 +414,13 @@ class Adn:
         # retornamos el haplotipo sin espacios antes y después
         return h.strip()
 
-    def haplotype_forensic(self, ref, haps3digits, deletions_as_d):
+    def haplotype_forensic(self, ref):
         """
         Obtener el haplotipo de la secuencia actual en comparación con una de
         referencia.
         Se utiliza la nomenclatura forense.
         Parámetros:
-          ref: secuencia de referencia.
-            haps3digits: indica si los haplotipos se muestran con 3 dígitos o
-                normales.
-            deletions_as_d: controla si las deleciones se muestran como "d" ó
-                "del" sólo en nomenclatura forense
+            ref: secuencia de referencia.
         Retorna:
           Una cadena con la representación del haplotipo.
         """
@@ -436,11 +432,6 @@ class Adn:
         missing = []
         # haplotipo
         h = ""
-        # cadena de representación de deleciones
-        if (deletions_as_d):
-            deletions_str = "d"
-        else:
-            deletions_str = "del"
         # recorremos los elementos de las dos secuencias
         # se presupone que tienen el mismo tamaño
         while (i < len(self)):
@@ -475,10 +466,7 @@ class Adn:
                 (self[i] == ADEoCIToGUA) or
                 (self[i] == ANYBASE)
             ):
-                if (haps3digits):
-                    h = h + (" %03d%s" % (pos, self[i]))
-                else:
-                    h = h + (" %d%s" % (pos, self[i]))
+                h = h + (" %d%s" % (pos, self[i]))
                 ins_counter = 0
             # INSERCIONES
             elif (
@@ -488,10 +476,7 @@ class Adn:
                 ((ref[i] == BLANCO) and (self[i] == CITOSINA))
             ):
                 ins_counter += 1
-                if (haps3digits):
-                    h = h + (" %03d.%d%s" % (pos, ins_counter, self[i]))
-                else:
-                    h = h + (" %d.%d%s" % (pos, ins_counter, self[i]))
+                h = h + (" %d.%d%s" % (pos, ins_counter, self[i]))
             # DELECIONES
             elif (
                 ((ref[i] == TIMINA) and (self[i] == BLANCO)) or
@@ -499,10 +484,7 @@ class Adn:
                 ((ref[i] == GUANINA) and (self[i] == BLANCO)) or
                 ((ref[i] == CITOSINA) and (self[i] == BLANCO))
             ):
-                if (haps3digits):
-                    h = h + (" %03d%s" % (pos, deletions_str))
-                else:
-                    h = h + (" %d%s" % (pos, deletions_str))
+                h = h + (" %dd" % (pos))
                 ins_counter = 0
             # MISSING
             elif (
@@ -600,21 +582,18 @@ class Adn:
         # cerramos el fichero
         f.close()
 
-    def get_haplotype(self, nomenclature, ref, haps3digits, deletions_as_d):
+    def get_haplotype(self, nomenclature, ref, hvri):
         if nomenclature == "POP":
-            return self.haplotype_population(ref, haps3digits)
+            return self.haplotype_population(ref, hvri)
         else:
-            return self.haplotype_forensic(ref, haps3digits, deletions_as_d)
+            return self.haplotype_forensic(ref)
 
 
-def sec2hap(nom_fichero_entrada, nom_fichero_salida, nomenclature):
+def sec2hap(nom_fichero_entrada, nom_fichero_salida, nomenclature, hvri):
     """
     Función que lee secuencias de un fichero de entrada y construye
     los haplotipos asociados en base a una referencia, y además los
     escribe en un fichero de salida.
-    Parámetros:
-    nom_fichero_entrada: nombre del fichero de datos de entrada (haplotipos)
-    nom_fichero_salida: nombre del fichero de datos de salida (secuencias)
     La estructura del fichero de secuencias es la siguiente:
     START: x  (indica la posición en el que se empieza a contar la secuencia
     de referencia)
@@ -632,21 +611,9 @@ def sec2hap(nom_fichero_entrada, nom_fichero_salida, nomenclature):
     fichero_salida = open(nom_fichero_salida, "w")
     # en la primera fila se encuentra la posición base
     l = fichero_entrada.readline().strip()
-    g = re.compile(r"^START *: *(\d+) *(\*|d|\*d|d\*)? *$").match(l)
-    # variable que controla si vamos a sacar las posiciones de los haplotipos
-    # con 3 dígitos o normales
-    haps3digits = False
-    # variable que controla si las deleciones se muestran como "d" ó "del" sólo
-    # en nomenclatura forense
-    deletions_as_d = False
-    if (g):
+    g = re.compile(r"^START *: *(\d+) *$").match(l)
+    if g:
         posbase = int(g.group(1))
-        options = g.group(2)
-        if (options):
-            if ("*" in options):
-                haps3digits = True
-            if ("d" in options):
-                deletions_as_d = True
     else:
         raise HaploException(
             "Base position is not defined on input file"
@@ -716,7 +683,7 @@ def sec2hap(nom_fichero_entrada, nom_fichero_salida, nomenclature):
         a = Adn(id, sec)
         # escribimos la secuencia en el fichero de salida
         try:
-            h = a.get_haplotype(nomenclature, ref, haps3digits, deletions_as_d)
+            h = a.get_haplotype(nomenclature, ref, hvri)
         except HaploException as err:
             msg = f"Data error on input file [Line: {num_linea}]"
             raise HaploException(msg + "\n" + err.args[0])
@@ -836,9 +803,9 @@ def hap2sec(nom_fichero_entrada, nom_fichero_salida, nomenclature):
 
 
 def manage_haplosearch(
-    inputfile_path, outputfile_path, nomenclature, operation
+    inputfile_path, outputfile_path, nomenclature, operation, hvri=False
 ):
     if operation == "S2H":
-        sec2hap(inputfile_path, outputfile_path, nomenclature)
+        sec2hap(inputfile_path, outputfile_path, nomenclature, hvri)
     else:
         hap2sec(inputfile_path, outputfile_path, nomenclature)

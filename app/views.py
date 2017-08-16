@@ -21,12 +21,17 @@ def start(request):
             inputfile = form.cleaned_data["inputfile"]
             operation = form.cleaned_data["operation"]
             nomenclature = form.cleaned_data["nomenclature"]
+            hvri = form.cleaned_data["hvri"]
             inputfile_path, outputfile_path = mktemp(), mktemp()
             handle_uploaded_file(inputfile, inputfile_path)
             try:
                 start = time.time()
                 manage_haplosearch(
-                    inputfile_path, outputfile_path, nomenclature, operation
+                    inputfile_path,
+                    outputfile_path,
+                    nomenclature,
+                    operation,
+                    hvri
                 )
                 end = time.time()
                 elapsed_time = (end - start)

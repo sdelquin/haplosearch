@@ -4,6 +4,8 @@ $ ->
     $(window).on("scroll", handle_scroll)
     $("#back-to-top").on("click", back_to_top)
     $("#back-to-top").tooltip("show")
+    $("#id_operation").on("change", handle_hvri)
+    $("#id_nomenclature").on("change", handle_hvri)
 
 
 handle_process = (event) ->
@@ -32,3 +34,11 @@ back_to_top = ->
     $(this).animate
         scrollTop: 0
         800
+
+handle_hvri = (event) ->
+    operation = $("#id_operation").val()
+    nomenclature = $("#id_nomenclature").val()
+    if operation == "S2H" and nomenclature == "POP"
+        $("#hvri-row").show()
+    else
+        $("#hvri-row").hide()

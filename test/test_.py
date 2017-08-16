@@ -42,7 +42,7 @@ def test_seq_to_hapfor():
 
 def test_seq_to_happop():
     outputfile_path = mktemp()
-    manage_haplosearch(TESTFILE_SEQ, outputfile_path, "POP", "S2H")
+    manage_haplosearch(TESTFILE_SEQ, outputfile_path, "POP", "S2H", True)
     cmp = filecmp.cmp(TESTFILE_HAP_POP, outputfile_path)
     os.remove(outputfile_path)
     assert cmp
