@@ -15,8 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from . import well_known
 
 urlpatterns = [
     url(r"^admin/", admin.site.urls),
     url(r"^", include("app.urls")),
+    url(
+        r"^\.well-known/acme-challenge/(?P<filename>.*)/$",
+        well_known.acme_challenge
+    )
 ]
