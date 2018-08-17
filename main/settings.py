@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from prettyconf import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,13 +21,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "t6k1rbw420bookl*=l%l5jy7iu452w=w*j1p0hy#cv3ja0lv+^"
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don"t run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default='False', cast=config.boolean)
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = config(
+    'ALLOWED_HOSTS',
+    default='127.0.0.1, localhost',
+    cast=config.list
+)
 
 # Application definition
 
@@ -111,7 +115,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "Atlantic/Canary"
+TIME_ZONE = config('TIME_ZONE', default='UTC')
 
 USE_I18N = True
 
@@ -125,9 +129,36 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
+STATIC_ROOT = config('STATIC_ROOT', default=os.path.join(BASE_DIR, '/static'))
+MEDIA_ROOT = config('MEDIA_ROOT', default=os.path.join(BASE_DIR, '/media'))
+
 CRISPY_TEMPLATE_PACK = "bootstrap3"
 
-try:
-    from .local_settings import *
-except ImportError:
-    pass
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s \
+%(process)d %(thread)d %(message)s",
+            "datefmt": "%d/%b/%Y %H:%M:%S",
+        },
+    },
+    "handlers": {
+        "logfile": {
+            "level": "ERROR",
+            "formatter": "verbose",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "haplosearch.log",
+            "maxBytes": 1 * 1024 * 1024,
+            "backupCount": 3,
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["logfile"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+    },
+}

@@ -6,3 +6,5 @@ bower_components
 cache
 .well-known
 .vscode
+.env
+*.log
