@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "==1.11.2"
+django = "==1.11.23"
 prettyconf = "*"
 django-widget-tweaks = "==1.4.1"
 
