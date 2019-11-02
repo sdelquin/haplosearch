@@ -8,6 +8,7 @@ def deploy():
     with cd('~/haplosearch'):
         run('git pull')
         run('pipenv install')
-        run('bower install')
+        with cd('app/static'):
+            run('npm install')
         run('pipenv run python manage.py collectstatic --noinput')
         run('supervisorctl restart haplosearch')
