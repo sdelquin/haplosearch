@@ -1,6 +1,6 @@
 from fabric.api import env, local, cd, run
 
-env.hosts = ['haplosearch.com']
+env.hosts = ['cloud']
 
 
 def deploy():
