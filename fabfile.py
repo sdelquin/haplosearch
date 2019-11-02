@@ -10,4 +10,4 @@ def deploy():
         run('pipenv install')
         run('bower install')
         run('pipenv run python manage.py collectstatic --noinput')
-        run('supctl restart haplosearch')
+        run('supervisorctl restart haplosearch')
