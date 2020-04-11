@@ -1,5 +1,5 @@
 #!/bin/bash
 
+source ~/.virtualenvs/haplosearch/bin/activate
 cd $(dirname $0)
-source $(pipenv --venv)/bin/activate
-exec uwsgi --ini uwsgi.ini
+exec gunicorn -c gunicorn.conf.py main.wsgi:application
