@@ -7,6 +7,6 @@ cache
 .well-known
 .vscode
 .env
-*.log
+*.log*
 static
 .python-version
