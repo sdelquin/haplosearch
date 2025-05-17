@@ -40,8 +40,9 @@ deploy:
     git pull
     just sync
     uv run ./manage.py migrate
+    npm install
     uv run ./manage.py collectstatic --no-input
-    supervisorctl restart cifutils
+    supervisorctl restart haplosearch
 
 # Open a Django shell
 @sh:
