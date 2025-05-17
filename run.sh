@@ -2,4 +2,4 @@
 
 cd $(dirname $0)
 source .venv/bin/activate
-exec gunicorn -c gunicorn.conf.py main.wsgi:application
+exec gunicorn -b unix:/tmp/haplosearch.sock main.wsgi:application
