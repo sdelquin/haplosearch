@@ -1,3 +1,0 @@
-django==2.2
-prettyconf
-django-widget-tweaks==1.4.1
